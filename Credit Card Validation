@@ -1,0 +1,130 @@
+/*
+Josafat Quintas
+ CS 220
+ Project 8: Credit Card Validation
+		This program uses Hans Luhn proposed algorithm to check if a credit card is valid.
+ Date:4/29/2019
+*/
+
+package p08;
+
+import java.util.Scanner;
+
+public class P08220Quintas {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("\n*** Credit Card Validation ***");
+
+		System.out.print("\nEnter a credit card number (Q to quit): ");
+		String cardNumber = input.nextLine();
+		
+
+		
+		while (!cardNumber.equals("Q")) {
+
+			if (isValid(cardNumber)) {
+				System.out.println("Credit Card " + cardNumber + " is valid");
+			} else {
+				System.out.println("Credit Card " + cardNumber + " is invalid");
+			}
+
+			System.out.print("\nEnter a credit card number (Q to quit): ");
+			cardNumber = input.nextLine();
+		
+
+		}
+
+		input.close();
+	}
+
+	/*
+	 * Return true if the card number is valid
+	 *
+	 * This method calls the following methods: sumOfDoubleEvenPlace sumOfOddPlace
+	 * isLengthValid isPrefixValid
+	 */
+	public static boolean isValid(String number) {
+		int divisable = (sumOfOddPlace(number) + sumOfDoubleEvenPlace(number)) % 10;
+		
+		
+        if ((divisable == 0) && (isLengthValid(number) == true) && (isPrefixValid(number) == true)){
+            return true;
+        } else {
+            return false;
+        }
+		
+	
+		
+		/*** COMPLETE ***/
+	}
+
+	/* Checks for valid length between 13 and 16 digits; returns true or false */
+	public static boolean isLengthValid(String number) {
+			
+		int count = number.length();
+		
+		if(count >=13 && count <=16 ){
+			return true;
+			}
+			else {	
+			return false;
+			}
+		}
+
+	/* Checks for valid prefix; returns true or false */
+	public static boolean isPrefixValid(String number) {
+		
+		if(number.startsWith("4")||number.startsWith("5")||number.startsWith("37")||number.startsWith("6")){
+			return true;
+		}
+		else {
+		return false;
+		}
+		
+		/*** COMPLETE ***/
+	}
+
+	/*
+	 * Get the result from Step 2 in the algorithm This method calls getDigit method
+	 */
+	public static int sumOfDoubleEvenPlace(String number) {
+	       int sumEven = 0; 
+	       int count = number.length();
+
+	        for (int i = count - 2; i >= 0; i -= 2)  
+	        	
+	        sumEven += getDigit(Integer.parseInt(number.charAt(i) + "") * 2); 
+	        
+	        return sumEven; 
+		/*** COMPLETE ***/
+	}
+
+	/*
+	 * Return this number if it is a single digit, otherwise, return the sum of the
+	 * two digits.	
+	 */
+	public static int getDigit(int number){ 
+        
+	     
+	        if (number < 9) 
+	            return number; 
+	        return number / 10 + number % 10; 
+	    }     
+		/*** COMPLETE ***/
+	
+
+	/* Return sum of odd place digits in number */
+	public static int sumOfOddPlace(String number) {
+        int sumOdd = 0; 
+	    int count = number.length();
+	    
+        for (int i = count - 1; i >= 0; i -= 2)  
+            sumOdd += Integer.parseInt(number.charAt(i) + "");         
+        return sumOdd; 
+		
+		
+		/*** COMPLETE ***/
+	}
+}
